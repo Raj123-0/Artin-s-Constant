@@ -33,24 +33,21 @@ Generators are used within worker processes to yield individual series terms dyn
 preventing the storage of large structures in RAM. `gc.collect()` is explicitly called 
 after significant aggregation steps to ensure the heap remains minimal.
 """
-
-import sys
-import math
 import argparse
-import multiprocessing
 import gc
-import functools
+import math
+import multiprocessing
 import os
+import sys
 
-# Enforce gmpy2 backend for mpmath to ensure maximum C-level optimization
-os.environ['MPMATH_GMPY2'] = '1'
-import gmpy2
+from __future__ import annotations
 import mpmath
 
 # Raise the limit for integer-to-string conversions for extreme precision targets
 sys.set_int_max_str_digits(0)
 
-def get_a_array(limit):
+
+def get_a_array(limit) -> Any:
     """
     Precomputes the convolution coefficient a_n = Sum_{d | n} [ mu(n/d) * L_d ]
     for all n <= limit using a highly optimized sieve approach.
@@ -73,7 +70,8 @@ def get_a_array(limit):
     a = [0] * (limit + 1)
     for d in range(1, limit + 1):
         L_d = lucas[d]
-        if L_d == 0: continue
+        if L_d == 0:
+            continue
         for n in range(d, limit + 1, d):
             m = moebius[n // d]
             if m:
@@ -81,7 +79,8 @@ def get_a_array(limit):
                 
     return a
 
-def worker_partial_sum(start_n, end_n, dps_precision):
+
+def worker_partial_sum(start_n, end_n, dps_precision) -> Any:
     """
     Worker function to compute the partial sum of the series for the interval [start_n, end_n).
     
@@ -104,6 +103,9 @@ def worker_partial_sum(start_n, end_n, dps_precision):
     
     # Generator to evaluate the mathematical chunk without holding history in memory
     def term_generator():
+        """Term generator.
+        
+        """
         for n in range(start_n, end_n):
             a_n = a[n]
             if a_n != 0:
@@ -127,7 +129,8 @@ def worker_partial_sum(start_n, end_n, dps_precision):
     # Return as string with extended precision to guarantee no bits are lost during transfer
     return mpmath.nstr(partial_sum, dps_precision + 10, min_fixed=-mpmath.inf, max_fixed=mpmath.inf)
 
-def calculate_artins_constant(N, num_cores=12):
+
+def calculate_artins_constant(N, num_cores=12) -> Any:
     """
     Main orchestration function. Configures precision, partitions the mathematical domain,
     spawns workers, aggregates results, and performs strict digit truncation.
@@ -203,6 +206,7 @@ def calculate_artins_constant(N, num_cores=12):
     final_digits = digits_only[:N]
     
     return final_digits
+
 
 def output_oeis_b_file(digits, filename):
     """
