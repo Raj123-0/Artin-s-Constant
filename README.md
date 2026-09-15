@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
 ===============================================================================
 PROJECT: Artin's Constant Computation Engine
 ===============================================================================
@@ -14,3 +17,9 @@ ALGORITHM & IMPLEMENTATION:
   where a_n is the Möbius-Lucas convolution sum_{d|n} mu(n/d) * L_d.
 - Multi-core Chunking: Summation domain is partitioned across parallel worker 
   processes (gmpy2 + mpmath backend) to eliminate inter-process communication overhead.
+
+## Usage
+
+```bash
+python "Artin's Constant.py" --help
+```
