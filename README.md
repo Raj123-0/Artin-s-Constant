@@ -1,25 +1,51 @@
+# Artin S Constant
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/Raj123-0/Artin-s-Constant/actions/workflows/ci.yml/badge.svg)](https://github.com/Raj123-0/Artin-s-Constant/actions)
 
-===============================================================================
-PROJECT: Artin's Constant Computation Engine
-===============================================================================
 
-OVERVIEW:
-Calculates Artin's constant (C_artin ≈ 0.3739558136192022...) to arbitrary 
-precision (N digits). Artin's constant represents the density of prime numbers 
-for which a given integer is a primitive root.
+High-precision mathematical computation and OEIS digit generator for Artin S Constant.
 
-ALGORITHM & IMPLEMENTATION:
-- Riemann Zeta & Lucas Number Expansion: Converts the prime product formula 
-  prod_{p} (1 - 1/(p(p-1))) into an exponentially converging series:
-    ln(C_artin) = - sum_{n=2}^infty (a_n / n) * ln(zeta(n))
-  where a_n is the Möbius-Lucas convolution sum_{d|n} mu(n/d) * L_d.
-- Multi-core Chunking: Summation domain is partitioned across parallel worker 
-  processes (gmpy2 + mpmath backend) to eliminate inter-process communication overhead.
+## Overview
+
+`Artin-s-Constant` implements high-precision evaluation of the **Artin S Constant** using arbitrary-precision mathematical routines (`mpmath` and C-accelerated `gmpy2`). The engine generates exact decimal digits, formats standard OEIS b-file sequences, and includes an automated performance benchmark.
+
+## Features
+
+- **Arbitrary-Precision Calculation**: Configurable digit targets with optimized guard precision.
+- **OEIS b-file Output**: Generates 1-based index sequence files ready for OEIS submission.
+- **Performance Profiling**: Built-in benchmark suite to evaluate digits/sec scaling.
+- **Robust CLI**: Easy command-line interface with argument parsing.
+
+## Installation
+
+```bash
+git clone https://github.com/Raj123-0/Artin-s-Constant.git
+cd Artin-s-Constant
+pip install -r requirements.txt
+```
 
 ## Usage
 
+Calculate digits with the CLI:
+
 ```bash
-python "Artin's Constant.py" --help
+python "Artin's Constant.py" --digits 1000
 ```
+
+Run precision benchmarks:
+
+```bash
+python benchmarks/bench_precision.py
+```
+
+Run automated tests:
+
+```bash
+pytest tests/
+```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
